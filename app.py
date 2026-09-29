@@ -46,7 +46,7 @@ if st.button("🚀 Recap Video စတင်ဖန်တီးမည်"):
                 else:
                     final_clip = video_clip
                 
-                final_clip = final_clip.with_audio(audio_clip)
+                final_clip = final_clip.set_audio(audio_clip)
                 
                 # Output Path
                 output_path = "temp/output_recap.mp4"
