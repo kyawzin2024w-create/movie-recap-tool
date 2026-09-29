@@ -17,7 +17,8 @@ col1, col2 = st.columns(2)
 with col1:
     video_file = st.file_uploader("🎥 ရုပ်ရှင်ဗီဒီယို တင်ရန် (MP4, MKV)", type=["mp4", "mkv"])
 with col2:
-    audio_file = st.file_uploader("🎙️ Voiceover အသံဖိုင် တင်ရန် (MP3, WAV)", type=["mp3, wav"])
+    # Fix: Corrected type syntax for audio files
+    audio_file = st.file_uploader("🎙️ Voiceover အသံဖိုင် တင်ရန် (MP3, WAV)", type=["mp3", "wav"])
 
 if st.button("🚀 ၁၀၀% တိကျသော Recap ဗီဒီယိုကို ဖန်တီးမည်"):
     if video_file and audio_file:
@@ -44,7 +45,6 @@ if st.button("🚀 ၁၀၀% တိကျသော Recap ဗီဒီယို�
             total_audio_duration = audio_clip.duration
             video_duration = video_clip.duration
             
-            # Voiceover ရဲ့ စုစုပေါင်း အချိန်ပေါ်မူတည်၍ ဇာတ်ကွက်အရေအတွက်ကို အတိအကျ တွက်ချက်ခြင်း
             target_scene_duration = transition_speed
             num_scenes = int(total_audio_duration / target_scene_duration)
             if num_scenes < 1:
@@ -67,15 +67,11 @@ if st.button("🚀 ၁၀၀% တိကျသော Recap ဗီဒီယို�
                 if start_time >= video_duration:
                     start_time = max(0, video_duration - target_scene_duration)
                 
-                # မူရင်း ဗီဒီယို အပိုင်းအစကို ဖြတ်ထုတ်ခြင်း
                 sub_clip = video_clip.subclip(start_time, end_time)
                 
-                # [PRO FEATURE] Voiceover ရဲ့ သတ်မှတ်ထားသော အပိုင်းအစ အချိန်နှင့် 
-                # ဖြတ်ထားသော ဗီဒီယို အပိုင်းအစ အချိန် အတိအကျ ကိုက်ညီစေရန် Speed (fx) ကို ချိန်ညှိခြင်း
                 current_sub_duration = sub_clip.duration
                 if current_sub_duration > 0:
                     speed_factor = current_sub_duration / actual_scene_duration
-                    # MoviePy ၏ speedx ကိုသုံး၍ ဗီဒီယိုကို လိုအပ်သလို အမြန်/အနှေး (Fast/Slow) ပြောင်းလဲခြင်း
                     sub_clip = sub_clip.speedx(factor=speed_factor)
                 
                 clips_to_concat.append(sub_clip)
@@ -85,8 +81,6 @@ if st.button("🚀 ၁၀၀% တိကျသော Recap ဗီဒီယို�
 
             if clips_to_concat:
                 final_video = concatenate_videoclips(clips_to_concat, method="compose")
-                
-                # Voiceover ကို မူသေအဖြစ် အပြည့်အစုံ တပ်ဆင်ခြင်း (၁၀၀% Sync ဖြစ်စေရန်)
                 final_video = final_video.set_audio(audio_clip)
             else:
                 final_video = video_clip.subclip(0, min(video_duration, total_audio_duration)).set_audio(audio_clip)
