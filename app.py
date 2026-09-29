@@ -42,7 +42,7 @@ if st.button("🚀 Recap Video စတင်ဖန်တီးမည်"):
                 
                 # Voiceover အရှည်အတိုင်း ဗီဒီယိုကို ညှပ်မည် (သို့ ချိန်ကိုက်မည်)
                 if video_clip.duration > audio_clip.duration:
-                    final_clip = video_clip.subclipped(0, audio_clip.duration)
+                    final_clip = video_clip.subclip(0, audio_clip.duration)
                 else:
                     final_clip = video_clip
                 
