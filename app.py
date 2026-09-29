@@ -37,7 +37,7 @@ if video_file:
         else:
             with st.spinner("ဗီဒီယိုဖိုင်ကို AI ဖြင့် အသေးစိတ် လေ့လာဆန်းစစ်နေပါပြီ..."):
                 try:
-                    # SDK အသစ်ဖြင့် Client တည်ဆောက်ခြင်း
+                    # SDK ဖြင့် Client တည်ဆောက်ခြင်း
                     client = genai.Client(api_key=api_key)
                     
                     st.write("📤 Gemini API သို့ ဗီဒီယိုဖိုင် တင်နေပါပြီ...")
@@ -72,9 +72,9 @@ if video_file:
                     """
 
                     st.write("🤖 AI ဖြင့် Script ကို ရေးသားနေပါပြီ...")
-                    # Gemini 2.5 Flash မော်ဒယ်ကို အသုံးပြု၍ Content ထုတ်ခြင်း
+                    # မော်ဒယ်အသစ် gemini-3.8-flash သို့ ပြောင်းလဲထားပါသည်
                     response = client.models.generate_content(
-                        model='gemini-2.5-flash',
+                        model='gemini-3.8-flash',
                         contents=[video_ref, prompt]
                     )
                     
